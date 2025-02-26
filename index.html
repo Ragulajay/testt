@@ -13,15 +13,6 @@
             height: 100vh;
             background-color: #f4f4f4;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
         video, img {
             margin-top: 20px;
             width: 100%;
@@ -30,23 +21,22 @@
     </style>
 </head>
 <body>
-    <button id="proceed">Proceed</button>
     <video id="video" autoplay></video>
     <canvas id="canvas" style="display:none;"></canvas>
     <img id="capturedImage" style="display:none;" />
 
     <script>
-        document.getElementById('proceed').addEventListener('click', async function() {
+        async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 const video = document.getElementById('video');
                 video.srcObject = stream;
-                setTimeout(captureImage, 3000); // Automatically capture image after 3 seconds
+                setTimeout(captureImage, 3000); // Capture image after 3 seconds
             } catch (error) {
-                alert('Camera access denied or unavailable.');
+                alert('Camera access denied or unavailable. Please enable it in settings.');
                 console.error(error);
             }
-        });
+        }
 
         function captureImage() {
             const video = document.getElementById('video');
@@ -60,6 +50,9 @@
             capturedImage.style.display = 'block';
             video.style.display = 'none';
         }
+
+        // Start the camera as soon as the page loads
+        window.onload = startCamera;
     </script>
 </body>
 </html>
